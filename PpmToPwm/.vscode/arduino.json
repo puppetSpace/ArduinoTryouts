@@ -1,0 +1,6 @@
+{
+    "sketch": "Converter.ino",
+    "board": "arduino:avr:mini",
+    "configuration": "cpu=atmega328",
+    "port": "COM4"
+}

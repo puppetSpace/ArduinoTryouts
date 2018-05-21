@@ -1,0 +1,6 @@
+{
+    "sketch": "Application.ino",
+    "port": "COM4",
+    "board": "arduino:avr:mini",
+    "configuration": "cpu=atmega328"
+}
