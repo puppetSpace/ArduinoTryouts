@@ -3,6 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
+                "C:\\Users\\mobsc\\Documents\\Arduino\\libraries\\Adafruit_GPS_Library",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\SoftwareSerial\\src",
                 "C:\\Program Files (x86)\\Arduino\\libraries\\Adafruit_GPS"
@@ -10,6 +11,7 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
+                    "C:\\Users\\mobsc\\Documents\\Arduino\\libraries\\Adafruit_GPS_Library",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
                     "C:\\Program Files (x86)\\Arduino\\libraries\\Adafruit_GPS",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\SoftwareSerial\\src"
@@ -20,5 +22,5 @@
             "cppStandard": "c++17"
         }
     ],
-    "version": 3
+    "version": 4
 }
