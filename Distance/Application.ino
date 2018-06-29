@@ -15,8 +15,8 @@ void loop(){
     digitalWrite(2,LOW);
 
     long duration = pulseIn(3,HIGH);
-    Serial.print("Duration: ");
-    Serial.println(duration);
+    // Serial.print("Duration: ");
+    // Serial.println(duration);
 
     Serial.print("Distance: ");
     Serial.println(duration * 0.0343 / 2);
