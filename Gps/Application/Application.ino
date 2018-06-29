@@ -31,34 +31,29 @@ void loop()
 {
   if (serialGps.available() > 0)
   {
-    char c = GPS.read();
-    if (GPS.newNMEAreceived())
-    {
-      if (!GPS.parse(GPS.lastNMEA())) // this also sets the newNMEAreceived() flag to false
-        return;
-    }
+    if (!IsNmeaReceived())
+      return;
 
-    if (timer > millis())
-      timer = millis();
-
+    ResetTimer();
     // approximately every 2 seconds or so, print out the current stats
     if (millis() - timer > 2000)
     {
       timer = millis(); // reset the timer
-      auto dateTime = String(GPS.year) + "/" + String(GPS.month) + "/" + String(GPS.day) + " " + String(GPS.hour) + ":" + String(GPS.minute) + ":" + String(GPS.seconds) + "." + String(GPS.milliseconds);
-      Serial.print("\date:");
-      Serial.println(dateTime);
-      if (GPS.fix)
-      {
-        auto latLong = String(GPS.latitude, 4) + String(GPS.lat) + ", " + String(GPS.longitude, 4) + String(GPS.lon);
-        Serial.print("Location: ");
-        Serial.println(latLong);
-
-        auto depth = GetDepth();
-        //send to raspberry gpsString
-      }
+      ProcessGPSData();
     }
   }
+}
+
+bool IsNmeaReceived()
+{
+  bool rtn = false;
+  char c = GPS.read();
+  if (GPS.newNMEAreceived())
+  {
+    if (GPS.parse(GPS.lastNMEA())) // this also sets the newNMEAreceived() flag to false
+      rtn = true;
+  }
+  return rtn;
 }
 
 void SetupGPS()
@@ -74,6 +69,33 @@ void SetupEcho()
   pinMode(DEPTH_ECHO_INPUT_PORT, INPUT);
 }
 
+void ProcessGPSData()
+{
+  if (GPS.fix)
+  {
+    String dateTime = GetDateFromGPSData();
+    Serial.print("\date:");
+    Serial.println(dateTime);
+
+    auto latLong = GetLocationFromGPSData();
+    Serial.print("Location: ");
+    Serial.println(latLong);
+
+    auto depth = GetDepth();
+    //send to raspberry gpsString
+  }
+}
+
+String GetDateFromGPSData()
+{
+  return String(GPS.year) + "/" + String(GPS.month) + "/" + String(GPS.day) + " " + String(GPS.hour) + ":" + String(GPS.minute) + ":" + String(GPS.seconds) + "." + String(GPS.milliseconds);
+}
+
+String GetLocationFromGPSData()
+{
+  return String(GPS.latitude, 4) + String(GPS.lat) + ", " + String(GPS.longitude, 4) + String(GPS.lon);
+}
+
 double GetDepth()
 {
   digitalWrite(DEPTH_ECHO_OUTPUT_PORT, LOW);
@@ -87,4 +109,10 @@ double GetDepth()
 
   //in cm's (duration in ms * speed of sound in cm/ms) for ping and receive. divide by 2 to only get distance to object
   return (duration * 0.0343 / 2);
+}
+
+void ResetTimer()
+{
+  if (timer > millis())
+    timer = millis();
 }
